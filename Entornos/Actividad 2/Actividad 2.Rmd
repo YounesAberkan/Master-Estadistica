@@ -1,0 +1,260 @@
+---
+title: "Predicción de la probabilidad de mora en préstamos bancarios"
+date: "2025-10-25"
+author: "Younes Aberkan El Hajui"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    keep_tex: true 
+lang: es
+documentclass: article
+fontsize: 12pt
+header-includes:
+  - \usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+  - \usepackage{hyperref}
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+tinytex::tlmgr_install(c("babel-spanish","hyphen-spanish"))
+library(tidyverse)
+library(ggplot2)
+library(shiny)
+```
+
+****
+
+\newpage
+
+# Introducción
+
+El sistema financiero, y en especifico el sector del crédito, es de gran importancia para el desarrollo de una sociedad y el crecimiento económico. En particular, la importancia del sector del crédito radica en el hecho de que este permite que circulen capitales financieros de individuos que tienen exceso de capital o ahorradores  a individuos  que tienen un déficit de capital o inversores. Esto es de gran importancia ya que permite que, por ejemplo, potenciales empresarios puedan financiar sus proyectos, el acceso a una vivienda por medio de un préstamo hipotecario, la financiación de una formación, etc...En este sentido, los bancos y  otras entidades financieras actúan como intermediarios que toman el excedente de capital de los ahorradores en forma de depósitos y lo transfieren a los inversores en forma de un préstamo. Sin embargo, el sector del crédito también es una fuente de \textit{riesgo sistémico} que podría llevar la colapso de la economía, tal y como se vio en la crisis financiera del 2008. Una de las fuentes de dicho riesgo es la posibilidad de que un determinado prestatario o cliente no cumpla sus obligaciones financieras de devolver intereses y capital respecto al prestatario, el banco (u otras entidades financieras similares), entrando así en \textit{mora}. Cuando un número reducido de clientes de un banco entran en mora, el banco puede experimentar dificultades y aumento de riesgo, lo que tiene serias implicaciones como la quiebra o mayores requerimentos de capital prudencial a medida que un número mayor de clientes entran en mora. Por otro lado, si varios bancos experimentan un elevado incremento de clientes en mora, el sistema financiero en su totalidad puede colapsar, colapsando consigo el resto del sistema económico.
+
+De esta forma, se aprecia la necesidad de saber o identificar que clientes tienen una mayor probabilidad de entrar en mora o PD ("probability of default", por sus siglas en inglés). Este parámetro de riesgo está ampliamente regulado en la Unión Europea e interviene no solo en la gestión interna de un banco a la hora de decidir si conceder o no un préstamo, si no también a la hora de determinar el nivel de capital prudencial necesario para cubir pérdidas causadas por clientes que entran en mora. En general, cuanto mayor sea la PD más capital tendrá que aprovisionar un banco, lo que reduce su rentabilidad.
+
+En este trabajo se analiza un conjunto de datos que contienen 1000 registros de clientes con préstamos de diversa índole  y otorgados por bancos alemanes en la década de los 90. Cada registro corresponde a un cliente o préstamo y contiene 20 variables independientes y una variable dependiente dicotómica. La elección de este \textit{dataset} esta en línea con el objeto de estudio de este trabajo, 
+
+En el contexto de esta asignatura, este trabajo permite la aplicación de un modelo estadístico a un determinado conjunto de datos y bajo un entorno de computación estadística adecuado.
+
+
+```{r}
+datos <-  read.csv("data_loans.csv")
+```
+
+
+# Datos
+
+
+Los datos utilizados en este trabajo provienen del registro de clientes de varias instituciones financieras alemanas en la década de los 90, donados por el profesor Dr. Hans Hofmann (Institut für Statistik und Ökonometrie, Universität Hamburg) al repositorio  \href{https://archive.ics.uci.edu/dataset/144/statlog+german+credit+data}{UCI de Machine Learning}. En particular, el \textit{dataset} utilizado contiene 1000 registros, cada uno correspondiendo a un cliente/operación, y 21 variables, lascuales se comentan a continuación.
+
+\begin{enumerate}
+  \item Creditability: variable dependiente dicotómica. Toma el valor 1 si el cliente no está en mora y 0 si está en mora.
+
+  \item Acc\_Bal: variable categórica con los siguientes valores:
+  \begin{itemize}
+    \item Valor de 1 si la cuenta corriente del cliente tiene menos de 0 DM ("\textit{Deutsche Mark}", i.e. marco alemán).
+    \item Valor de 2 si la cuenta corriente del cliente tiene entre 0 y 200 DM.
+    \item Valor de 3 si la cuenta corriente del cliente tiene 200 DM o más.
+    \item Valor de 4 si el cliente no posee cuenta corriente.
+  \end{itemize}
+
+  \item Dur\_Cr: variable numérica. Duración del crédito solicitado (en meses).
+
+  \item Pay\_Status: variable categórica que describe el historial de pagos previos del cliente.
+  \begin{itemize}
+    \item Valor de 1 si no ha tenido créditos previos o todos fueron pagados a tiempo.
+    \item Valor de 2 si todos los créditos anteriores fueron pagados puntualmente.
+    \item Valor de 3 si existieron problemas anteriores pero ya fueron saldados.
+    \item Valor de 4 si existen atrasos en pagos actuales.
+    \item Valor de 5 si hay créditos críticos o en mora.
+  \end{itemize}
+
+  \item Purpose: variable categórica que representa el propósito del crédito.
+  \begin{itemize}
+    \item Valor de 0: compra de coche nuevo.
+    \item Valor de 1: compra de coche usado.
+    \item Valor de 2: compra de muebles o equipamiento.
+    \item Valor de 3: compra de radio o televisión.
+    \item Valor de 4: compra de electrodomésticos.
+    \item Valor de 5: reparaciones.
+    \item Valor de 6: educación.
+    \item Valor de 7: vacaciones.
+    \item Valor de 8: formación profesional.
+    \item Valor de 9: otros fines.
+  \end{itemize}
+
+  \item Cre\_Amount: variable numérica. Monto total del crédito solicitado (en marcos alemanes, DM).
+
+  \item Value: variable categórica que indica el nivel de ahorros o activos del cliente.
+  \begin{itemize}
+    \item Valor de 1 si posee menos de 100 DM en ahorros o bonos.
+    \item Valor de 2 si posee entre 100 y 500 DM.
+    \item Valor de 3 si posee entre 500 y 1000 DM.
+    \item Valor de 4 si posee 1000 DM o más.
+    \item Valor de 5 si no posee cuenta de ahorro.
+  \end{itemize}
+
+  \item L\_emp: variable categórica que indica el tiempo que el cliente lleva empleado actualmente.
+  \begin{itemize}
+    \item Valor de 1: desempleado.
+    \item Valor de 2: menos de 1 año.
+    \item Valor de 3: entre 1 y 4 años.
+    \item Valor de 4: entre 4 y 7 años.
+    \item Valor de 5: 7 años o más.
+  \end{itemize}
+
+  \item I_pc: variable numérica. Porcentaje del ingreso disponible destinado al pago del crédito.
+
+  \item Sex\_Status: variable categórica que representa el sexo y estado civil del cliente.
+  \begin{itemize}
+    \item Valor de 1: hombre soltero.
+    \item Valor de 2: hombre casado o divorciado.
+    \item Valor de 3: hombre soltero (otra categoría).
+    \item Valor de 4: mujer casada o divorciada.
+    \item Valor de 5: mujer soltera.
+  \end{itemize}
+
+  \item Guarantors: variable categórica que indica la existencia de garantes o co-deudores.
+  \begin{itemize}
+    \item Valor de 1: ninguno.
+    \item Valor de 2: co-deudor.
+    \item Valor de 3: garante.
+  \end{itemize}
+
+  \item Dur_address: variable numérica. Años que el cliente lleva viviendo en su dirección actual.
+
+  \item Most\_val: variable categórica que identifica el activo más valioso del cliente.
+  \begin{itemize}
+    \item Valor de 1: bienes raíces.
+    \item Valor de 2: póliza de seguro de vida o préstamo.
+    \item Valor de 3: automóvil.
+    \item Valor de 4: ningún activo importante.
+  \end{itemize}
+
+  \item Age: variable numérica. Edad del solicitante (en años).
+
+  \item Concurrent\_Credits: variable categórica que señala la existencia de otros créditos simultáneos.
+  \begin{itemize}
+    \item Valor de 1: ninguno.
+    \item Valor de 2: crédito en tienda.
+    \item Valor de 3: crédito en otro banco.
+  \end{itemize}
+
+  \item Type\_ap: variable categórica que indica el tipo de vivienda.
+  \begin{itemize}
+    \item Valor de 1: vivienda propia.
+    \item Valor de 2: vivienda alquilada.
+    \item Valor de 3: vivienda gratuita.
+  \end{itemize}
+
+  \item No\_Cr: variable numérica. Número de créditos activos en el mismo banco.
+
+  \item Occupation: variable categórica que describe el tipo de ocupación del cliente.
+  \begin{itemize}
+    \item Valor de 1: desempleado o no calificado (no residente).
+    \item Valor de 2: no calificado (residente).
+    \item Valor de 3: empleado o trabajador calificado.
+    \item Valor de 4: directivo, autónomo o profesional de alta posición.
+  \end{itemize}
+
+  \item No\_dep: variable numérica. Número de personas dependientes económicamente del solicitante.
+
+  \item Telephone: variable categórica que indica si el cliente dispone de teléfono registrado a su nombre.
+  \begin{itemize}
+    \item Valor de 1: no tiene teléfono.
+    \item Valor de 2: sí tiene teléfono.
+  \end{itemize}
+
+  \item For\_Worker: variable categórica que indica si el cliente es trabajador extranjero.
+  \begin{itemize}
+    \item Valor de 1: sí es trabajador extranjero.
+    \item Valor de 2: no es trabajador extranjero.
+  \end{itemize}
+\end{enumerate}
+
+
+
+
+
+# Modelo
+
+En vista del objetivo de estudio, la predicción de la probabilidad de mora de un determinado cliente, se ha elegido un modelo \textit{logit}. En particular se ha elegido un enfoque \textit{backwards}, eliminando las variables poco significativas de forma iterativa. El modelo especificado es el siguiente:
+
+
+$$
+\text{log}\left(\frac{PD}{1-PD}\right) =  \beta_0 
++ \sum_{k=1}^{20} \beta_k x_k + \epsilon
+$$
+
+Donde $PD$ es la probabilidad de mora, $x_k$ la variable explicativa $k$ y $\epsilon$ un término de error.
+Por otro lado, este modelo estadístico de regresión logistica se formula asumiendo los siguientes supuestos:
+
+\begin{enumerate}
+ \item Variable respuesta dicotómica.
+ \item Observaciones independientes.
+ \item Ausencia de multicolinearidad.
+ \item Relación lineal entre el logaritmo del cociente $PD/1-PD$ y las variables explicativas.
+ \item Errores independientes y de distribución binomial.
+\end{enumerate}
+
+
+
+
+
+# Análisis estadístico
+
+A continuación, se presenta el ajsute del modelo
+
+
+
+
+
+
+```{r}
+datos <- read.csv("data_loans.csv")
+
+datos <- within(datos, {
+  Account_Balance <- factor(Account_Balance)
+  Payment_Status <- factor(Payment_Status_of_Previous_Credit)
+  Purpose <- factor(Purpose)
+  Value_Savings_Stocks <- factor(Value_Savings_Stocks)
+  Length_of_current_employment <- factor(Length_of_current_employment)
+  Sex_Marital_Status <- factor(Sex_Marital_Status)
+  Guarantors <- factor(Guarantors)
+  Most_valuable_available_asset <- factor(Most_valuable_available_asset)
+  Concurrent_Credits <- factor(Concurrent_Credits)
+  Type_of_apartment <- factor(Type_of_apartment)
+  Occupation <- factor(Occupation)
+  Telephone <- factor(Telephone)
+  Foreign_Worker <- factor(Foreign_Worker)
+})
+
+glm_model <- glm(
+  Creditability ~ Account_Balance + Duration_of_Credit +
+    Payment_Status_of_Previous_Credit +
+    Purpose + Credit_Amount + Value_Savings_Stocks +
+    Length_of_current_employment +
+    Instalment_per_cent + Sex_Marital_Status +
+    Guarantors + Duration_in_Current_address +
+    Most_valuable_available_asset + Age + Concurrent_Credits +
+    Type_of_apartment +
+    No_of_Credits_at_this_Bank + Occupation + No_of_dependents +
+    Telephone + Foreign_Worker,
+  family = binomial(link = "logit"),
+  data = datos
+)
+summary(glm_model)
+
+```
+
+# Conclusiones
+
+
+
+
+# Referencias
+
