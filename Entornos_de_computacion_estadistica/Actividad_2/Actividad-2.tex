@@ -1,0 +1,470 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+  spanish,
+  12pt,
+]{article}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Predicción de la probabilidad de mora en préstamos bancarios},
+  pdfauthor={Younes Aberkan El Hajui},
+  pdflang={es},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Predicción de la probabilidad de mora en préstamos bancarios}
+\author{Younes Aberkan El Hajui}
+\date{2025-10-25}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\newpage
+
+\section{Introducción}\label{introducciuxf3n}
+
+El sistema financiero, y en especifico el sector del crédito, es de gran
+importancia para el desarrollo de una sociedad y el crecimiento
+económico. En particular, la importancia del sector del crédito radica
+en el hecho de que este permite que circulen capitales financieros de
+individuos que tienen exceso de capital o ahorradores a individuos que
+tienen un déficit de capital o inversores. Esto es de gran importancia
+ya que permite que, por ejemplo, potenciales empresarios puedan
+financiar sus proyectos, el acceso a una vivienda por medio de un
+préstamo hipotecario, la financiación de una formación, etc\ldots En
+este sentido, los bancos y otras entidades financieras actúan como
+intermediarios que toman el excedente de capital de los ahorradores en
+forma de depósitos y lo transfieren a los inversores en forma de un
+préstamo. Sin embargo, el sector del crédito también es una fuente de
+\textit{riesgo sistémico} que podría llevar la colapso de la economía,
+tal y como se vio en la crisis financiera del 2008. Una de las fuentes
+de dicho riesgo es la posibilidad de que un determinado prestatario o
+cliente no cumpla sus obligaciones financieras de devolver intereses y
+capital respecto al prestatario, el banco (u otras entidades financieras
+similares), entrando así en \textit{mora}. Cuando un número reducido de
+clientes de un banco entran en mora, el banco puede experimentar
+dificultades y aumento de riesgo, lo que tiene serias implicaciones como
+la quiebra o mayores requerimentos de capital prudencial a medida que un
+número mayor de clientes entran en mora. Por otro lado, si varios bancos
+experimentan un elevado incremento de clientes en mora, el sistema
+financiero en su totalidad puede colapsar, colapsando consigo el resto
+del sistema económico.
+
+De esta forma, se aprecia la necesidad de saber o identificar que
+clientes tienen una mayor probabilidad de entrar en mora o PD
+(``probability of default'', por sus siglas en inglés). Este parámetro
+de riesgo está ampliamente regulado en la Unión Europea e interviene no
+solo en la gestión interna de un banco a la hora de decidir si conceder
+o no un préstamo, si no también a la hora de determinar el nivel de
+capital prudencial necesario para cubir pérdidas causadas por clientes
+que entran en mora. En general, cuanto mayor sea la PD más capital
+tendrá que aprovisionar un banco, lo que reduce su rentabilidad.
+
+En este trabajo se analiza un conjunto de datos que contienen 1000
+registros de clientes con préstamos de diversa índole y otorgados por
+bancos alemanes en la década de los 90. Cada registro corresponde a un
+cliente o préstamo y contiene 20 variables independientes y una variable
+dependiente dicotómica. La elección de este \textit{dataset} esta en
+línea con el objeto de estudio de este trabajo,
+
+En el contexto de esta asignatura, este trabajo permite la aplicación de
+un modelo estadístico a un determinado conjunto de datos y bajo un
+entorno de computación estadística adecuado.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{datos }\OtherTok{\textless{}{-}}  \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data\_loans.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Datos}\label{datos}
+
+Los datos utilizados en este trabajo provienen del registro de clientes
+de varias instituciones financieras alemanas en la década de los 90,
+donados por el profesor Dr.~Hans Hofmann (Institut für Statistik und
+Ökonometrie, Universität Hamburg) al repositorio
+\href{https://archive.ics.uci.edu/dataset/144/statlog+german+credit+data}{UCI de Machine Learning}.
+En particular, el \textit{dataset} utilizado contiene 1000 registros,
+cada uno correspondiendo a un cliente/operación, y 21 variables,
+lascuales se comentan a continuación.
+
+\begin{enumerate}
+  \item Creditability: variable dependiente dicotómica. Toma el valor 1 si el cliente no está en mora y 0 si está en mora.
+
+  \item Acc\_Bal: variable categórica con los siguientes valores:
+  \begin{itemize}
+    \item Valor de 1 si la cuenta corriente del cliente tiene menos de 0 DM ("\textit{Deutsche Mark}", i.e. marco alemán).
+    \item Valor de 2 si la cuenta corriente del cliente tiene entre 0 y 200 DM.
+    \item Valor de 3 si la cuenta corriente del cliente tiene 200 DM o más.
+    \item Valor de 4 si el cliente no posee cuenta corriente.
+  \end{itemize}
+
+  \item Dur\_Cr: variable numérica. Duración del crédito solicitado (en meses).
+
+  \item Pay\_Status: variable categórica que describe el historial de pagos previos del cliente.
+  \begin{itemize}
+    \item Valor de 1 si no ha tenido créditos previos o todos fueron pagados a tiempo.
+    \item Valor de 2 si todos los créditos anteriores fueron pagados puntualmente.
+    \item Valor de 3 si existieron problemas anteriores pero ya fueron saldados.
+    \item Valor de 4 si existen atrasos en pagos actuales.
+    \item Valor de 5 si hay créditos críticos o en mora.
+  \end{itemize}
+
+  \item Purpose: variable categórica que representa el propósito del crédito.
+  \begin{itemize}
+    \item Valor de 0: compra de coche nuevo.
+    \item Valor de 1: compra de coche usado.
+    \item Valor de 2: compra de muebles o equipamiento.
+    \item Valor de 3: compra de radio o televisión.
+    \item Valor de 4: compra de electrodomésticos.
+    \item Valor de 5: reparaciones.
+    \item Valor de 6: educación.
+    \item Valor de 7: vacaciones.
+    \item Valor de 8: formación profesional.
+    \item Valor de 9: otros fines.
+  \end{itemize}
+
+  \item Cre\_Amount: variable numérica. Monto total del crédito solicitado (en marcos alemanes, DM).
+
+  \item Value: variable categórica que indica el nivel de ahorros o activos del cliente.
+  \begin{itemize}
+    \item Valor de 1 si posee menos de 100 DM en ahorros o bonos.
+    \item Valor de 2 si posee entre 100 y 500 DM.
+    \item Valor de 3 si posee entre 500 y 1000 DM.
+    \item Valor de 4 si posee 1000 DM o más.
+    \item Valor de 5 si no posee cuenta de ahorro.
+  \end{itemize}
+
+  \item L\_emp: variable categórica que indica el tiempo que el cliente lleva empleado actualmente.
+  \begin{itemize}
+    \item Valor de 1: desempleado.
+    \item Valor de 2: menos de 1 año.
+    \item Valor de 3: entre 1 y 4 años.
+    \item Valor de 4: entre 4 y 7 años.
+    \item Valor de 5: 7 años o más.
+  \end{itemize}
+
+  \item I_pc: variable numérica. Porcentaje del ingreso disponible destinado al pago del crédito.
+
+  \item Sex\_Status: variable categórica que representa el sexo y estado civil del cliente.
+  \begin{itemize}
+    \item Valor de 1: hombre soltero.
+    \item Valor de 2: hombre casado o divorciado.
+    \item Valor de 3: hombre soltero (otra categoría).
+    \item Valor de 4: mujer casada o divorciada.
+    \item Valor de 5: mujer soltera.
+  \end{itemize}
+
+  \item Guarantors: variable categórica que indica la existencia de garantes o co-deudores.
+  \begin{itemize}
+    \item Valor de 1: ninguno.
+    \item Valor de 2: co-deudor.
+    \item Valor de 3: garante.
+  \end{itemize}
+
+  \item Dur_address: variable numérica. Años que el cliente lleva viviendo en su dirección actual.
+
+  \item Most\_val: variable categórica que identifica el activo más valioso del cliente.
+  \begin{itemize}
+    \item Valor de 1: bienes raíces.
+    \item Valor de 2: póliza de seguro de vida o préstamo.
+    \item Valor de 3: automóvil.
+    \item Valor de 4: ningún activo importante.
+  \end{itemize}
+
+  \item Age: variable numérica. Edad del solicitante (en años).
+
+  \item Concurrent\_Credits: variable categórica que señala la existencia de otros créditos simultáneos.
+  \begin{itemize}
+    \item Valor de 1: ninguno.
+    \item Valor de 2: crédito en tienda.
+    \item Valor de 3: crédito en otro banco.
+  \end{itemize}
+
+  \item Type\_ap: variable categórica que indica el tipo de vivienda.
+  \begin{itemize}
+    \item Valor de 1: vivienda propia.
+    \item Valor de 2: vivienda alquilada.
+    \item Valor de 3: vivienda gratuita.
+  \end{itemize}
+
+  \item No\_Cr: variable numérica. Número de créditos activos en el mismo banco.
+
+  \item Occupation: variable categórica que describe el tipo de ocupación del cliente.
+  \begin{itemize}
+    \item Valor de 1: desempleado o no calificado (no residente).
+    \item Valor de 2: no calificado (residente).
+    \item Valor de 3: empleado o trabajador calificado.
+    \item Valor de 4: directivo, autónomo o profesional de alta posición.
+  \end{itemize}
+
+  \item No\_dep: variable numérica. Número de personas dependientes económicamente del solicitante.
+
+  \item Telephone: variable categórica que indica si el cliente dispone de teléfono registrado a su nombre.
+  \begin{itemize}
+    \item Valor de 1: no tiene teléfono.
+    \item Valor de 2: sí tiene teléfono.
+  \end{itemize}
+
+  \item For\_Worker: variable categórica que indica si el cliente es trabajador extranjero.
+  \begin{itemize}
+    \item Valor de 1: sí es trabajador extranjero.
+    \item Valor de 2: no es trabajador extranjero.
+  \end{itemize}
+\end{enumerate}
+
+\section{Modelo}\label{modelo}
+
+En vista del objetivo de estudio, la predicción de la probabilidad de
+mora de un determinado cliente, se ha elegido un modelo \textit{logit}.
+En particular se ha elegido un enfoque \textit{backwards}, eliminando
+las variables poco significativas de forma iterativa. El modelo
+especificado es el siguiente:
+
+\[
+\text{log}\left(\frac{PD}{1-PD}\right) =  \beta_0 
++ \sum_{k=1}^{20} \beta_k x_k + \epsilon
+\]
+
+Donde \(PD\) es la probabilidad de mora, \(x_k\) la variable explicativa
+\(k\) y \(\epsilon\) un término de error. Por otro lado, este modelo
+estadístico de regresión logistica se formula asumiendo los siguientes
+supuestos:
+
+\begin{enumerate}
+ \item Variable respuesta dicotómica.
+ \item Observaciones independientes.
+ \item Ausencia de multicolinearidad.
+ \item Relación lineal entre el logaritmo del cociente $PD/1-PD$ y las variables explicativas.
+ \item Errores independientes y de distribución binomial.
+\end{enumerate}
+
+\section{Análisis estadístico}\label{anuxe1lisis-estaduxedstico}
+
+A continuación, se presenta el ajsute del modelo
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{datos }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data\_loans.csv"}\NormalTok{)}
+
+\NormalTok{datos }\OtherTok{\textless{}{-}} \FunctionTok{within}\NormalTok{(datos, \{}
+\NormalTok{  Account\_Balance }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Account\_Balance)}
+\NormalTok{  Payment\_Status }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Payment\_Status\_of\_Previous\_Credit)}
+\NormalTok{  Purpose }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Purpose)}
+\NormalTok{  Value\_Savings\_Stocks }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Value\_Savings\_Stocks)}
+\NormalTok{  Length\_of\_current\_employment }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Length\_of\_current\_employment)}
+\NormalTok{  Sex\_Marital\_Status }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Sex\_Marital\_Status)}
+\NormalTok{  Guarantors }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Guarantors)}
+\NormalTok{  Most\_valuable\_available\_asset }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Most\_valuable\_available\_asset)}
+\NormalTok{  Concurrent\_Credits }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Concurrent\_Credits)}
+\NormalTok{  Type\_of\_apartment }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Type\_of\_apartment)}
+\NormalTok{  Occupation }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Occupation)}
+\NormalTok{  Telephone }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Telephone)}
+\NormalTok{  Foreign\_Worker }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(Foreign\_Worker)}
+\NormalTok{\})}
+
+\NormalTok{glm\_model }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}
+\NormalTok{  Creditability }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Account\_Balance }\SpecialCharTok{+}\NormalTok{ Duration\_of\_Credit }\SpecialCharTok{+}
+\NormalTok{    Payment\_Status\_of\_Previous\_Credit }\SpecialCharTok{+}
+\NormalTok{    Purpose }\SpecialCharTok{+}\NormalTok{ Credit\_Amount }\SpecialCharTok{+}\NormalTok{ Value\_Savings\_Stocks }\SpecialCharTok{+}
+\NormalTok{    Length\_of\_current\_employment }\SpecialCharTok{+}
+\NormalTok{    Instalment\_per\_cent }\SpecialCharTok{+}\NormalTok{ Sex\_Marital\_Status }\SpecialCharTok{+}
+\NormalTok{    Guarantors }\SpecialCharTok{+}\NormalTok{ Duration\_in\_Current\_address }\SpecialCharTok{+}
+\NormalTok{    Most\_valuable\_available\_asset }\SpecialCharTok{+}\NormalTok{ Age }\SpecialCharTok{+}\NormalTok{ Concurrent\_Credits }\SpecialCharTok{+}
+\NormalTok{    Type\_of\_apartment }\SpecialCharTok{+}
+\NormalTok{    No\_of\_Credits\_at\_this\_Bank }\SpecialCharTok{+}\NormalTok{ Occupation }\SpecialCharTok{+}\NormalTok{ No\_of\_dependents }\SpecialCharTok{+}
+\NormalTok{    Telephone }\SpecialCharTok{+}\NormalTok{ Foreign\_Worker,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{),}
+  \AttributeTok{data =}\NormalTok{ datos}
+\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(glm\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = Creditability ~ Account_Balance + Duration_of_Credit + 
+##     Payment_Status_of_Previous_Credit + Purpose + Credit_Amount + 
+##     Value_Savings_Stocks + Length_of_current_employment + Instalment_per_cent + 
+##     Sex_Marital_Status + Guarantors + Duration_in_Current_address + 
+##     Most_valuable_available_asset + Age + Concurrent_Credits + 
+##     Type_of_apartment + No_of_Credits_at_this_Bank + Occupation + 
+##     No_of_dependents + Telephone + Foreign_Worker, family = binomial(link = "logit"), 
+##     data = datos)
+## 
+## Coefficients:
+##                                     Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)                       -5.364e-01  9.645e-01  -0.556 0.578139    
+## Account_Balance2                   3.722e-01  2.155e-01   1.727 0.084183 .  
+## Account_Balance3                   9.700e-01  3.681e-01   2.635 0.008417 ** 
+## Account_Balance4                   1.695e+00  2.295e-01   7.385 1.52e-13 ***
+## Duration_of_Credit                -2.833e-02  9.212e-03  -3.076 0.002099 ** 
+## Payment_Status_of_Previous_Credit  4.009e-01  9.210e-02   4.353 1.34e-05 ***
+## Purpose1                           1.638e+00  3.716e-01   4.409 1.04e-05 ***
+## Purpose2                           7.746e-01  2.598e-01   2.982 0.002865 ** 
+## Purpose3                           8.678e-01  2.449e-01   3.544 0.000395 ***
+## Purpose4                           4.885e-01  7.490e-01   0.652 0.514248    
+## Purpose5                           2.675e-01  5.537e-01   0.483 0.629012    
+## Purpose6                          -4.692e-02  3.926e-01  -0.119 0.904883    
+## Purpose8                           1.921e+00  1.174e+00   1.636 0.101770    
+## Purpose9                           7.006e-01  3.292e-01   2.128 0.033297 *  
+## Purpose10                          1.398e+00  7.689e-01   1.818 0.069028 .  
+## Credit_Amount                     -1.220e-04  4.436e-05  -2.750 0.005969 ** 
+## Value_Savings_Stocks2              3.389e-01  2.846e-01   1.191 0.233730    
+## Value_Savings_Stocks3              3.435e-01  3.958e-01   0.868 0.385455    
+## Value_Savings_Stocks4              1.273e+00  5.131e-01   2.480 0.013130 *  
+## Value_Savings_Stocks5              9.348e-01  2.609e-01   3.583 0.000340 ***
+## Length_of_current_employment2      1.297e-01  4.268e-01   0.304 0.761171    
+## Length_of_current_employment3      2.494e-01  4.092e-01   0.610 0.542115    
+## Length_of_current_employment4      8.814e-01  4.434e-01   1.988 0.046844 *  
+## Length_of_current_employment5      3.080e-01  4.119e-01   0.748 0.454600    
+## Instalment_per_cent               -3.268e-01  8.761e-02  -3.731 0.000191 ***
+## Sex_Marital_Status2                2.989e-01  3.847e-01   0.777 0.437154    
+## Sex_Marital_Status3                8.026e-01  3.777e-01   2.125 0.033583 *  
+## Sex_Marital_Status4                3.810e-01  4.504e-01   0.846 0.397601    
+## Guarantors2                       -4.414e-01  4.073e-01  -1.084 0.278529    
+## Guarantors3                        8.983e-01  4.215e-01   2.131 0.033098 *  
+## Duration_in_Current_address       -4.659e-04  8.594e-02  -0.005 0.995675    
+## Most_valuable_available_asset2    -2.721e-01  2.518e-01  -1.081 0.279907    
+## Most_valuable_available_asset3    -1.976e-01  2.345e-01  -0.843 0.399500    
+## Most_valuable_available_asset4    -7.089e-01  4.160e-01  -1.704 0.088365 .  
+## Age                                1.419e-02  9.146e-03   1.552 0.120698    
+## Concurrent_Credits2               -2.869e-02  4.155e-01  -0.069 0.944942    
+## Concurrent_Credits3                4.721e-01  2.372e-01   1.990 0.046538 *  
+## Type_of_apartment2                 4.704e-01  2.342e-01   2.009 0.044572 *  
+## Type_of_apartment3                 6.608e-01  4.681e-01   1.412 0.158013    
+## No_of_Credits_at_this_Bank        -2.350e-01  1.707e-01  -1.377 0.168563    
+## Occupation2                       -5.902e-01  6.697e-01  -0.881 0.378157    
+## Occupation3                       -5.876e-01  6.446e-01  -0.912 0.362002    
+## Occupation4                       -5.146e-01  6.543e-01  -0.786 0.431611    
+## No_of_dependents                  -2.794e-01  2.480e-01  -1.127 0.259903    
+## Telephone2                         2.793e-01  2.000e-01   1.397 0.162531    
+## Foreign_Worker2                    1.404e+00  6.205e-01   2.262 0.023686 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1221.73  on 999  degrees of freedom
+## Residual deviance:  902.52  on 954  degrees of freedom
+## AIC: 994.52
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+
+\section{Conclusiones}\label{conclusiones}
+
+\section{Referencias}\label{referencias}
+
+\end{document}
