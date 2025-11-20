@@ -1,0 +1,86 @@
+---
+title: ""
+date: ""
+author: ""
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    keep_tex: true 
+lang: es
+documentclass: article
+fontsize: 12pt
+header-includes:
+  - \usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+  - \usepackage{hyperref}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+tinytex::tlmgr_install(c("babel-spanish","hyphen-spanish"))
+library(tidyverse)
+library(ggplot2)
+library(shiny)
+```
+
+------------------------------------------------------------------------
+
+\newpage
+
+Ejercicio 1
+
+```{r setup, include=FALSE}
+puntos <- function(urna)
+{
+
+  if(urna == "dados")
+  {}
+  else if(urna == "naipes")
+  {}
+  else 
+  {}
+
+
+}
+
+n <- 100
+m <- 100
+
+x <- 1:6
+y <- 10:12
+
+# Muestras de n dados y m barajas españolas
+
+dados_muestra <- sample(x, size = n, replace = TRUE)
+naipes_muestra <- sample(y, size = m,  replace = TRUE)
+
+df_naipes <- data.frame(naipes_muestra)
+
+sprintf(" %1.0f", mean(dados_muestra)) # eliminar decimales
+sum(naipes_muestra) # eliminar decimales
+
+#Diagrama de barras para el conjunto de m barajas
+
+naipes_f <- factor(naipes_muestra, labels=c("sota", "caballo", "rey"))
+frec_naipes <- prop.table(table(naipes_f))
+df_frec_naipes <- data.frame(frec_naipes)
+colnames(df_frec_naipes) <- c("Valor", "Frecuencia relativa")
+barplot(table(naipes_f)/length(naipes_f))
+
+#Histograma para el conjunto de n dados
+
+dados_f <- factor(dados_muestra, labels=c("1", "2", "3", "4", "5", "6"))
+frec_dados <- prop.table(table(dados_f))
+df_frec_dados <- data.frame(frec_dados)
+colnames(df_frec_dados) <- c("Valor", "Frecuencia relativa")
+barplot(table(dados_f)/length(dados_f))
+
+  
+```
+
+Ejercicio 2
+
+Ejercicio 3
+
+Ejercicio 4
